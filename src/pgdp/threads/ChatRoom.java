@@ -34,49 +34,49 @@ public class ChatRoom implements Runnable {
                     System.out.println(line);
                     if (line.contains("new_user")) {
                         chatLog(line.split("@")[1]+"  connected chat room!Say hey!");
-                    }
-                    if(line.contains("#username#")){
+                    }else {
                         String username = line.split("#username#")[0];
                         String message = line.split("#username#")[1];
-
-                        if(message.equals("LOGOUT")){
+                        if (message.equals("LOGOUT")) {
                             chatLog(username + "  logged out!");
                             logOut(username);
-                        }else if(message.equals("PENGU")){
-                            sendMessage(username,"Penguins can't taste their food because they swallow their prey whole.");
-                        }else if(message.equals("WHOIS")){
-                            sendMessage(username,allUser());
-                        }else if(message.contains("@")){
+                        } else if (message.equals("PENGU")) {
+                            sendMessage(username, "Penguins can't taste their food because they swallow their prey whole.");
+                        } else if (message.equals("WHOIS")) {
+                            sendMessage(username, allUser());
+                        } else if (message.contains("@")) {
                             String target = message.split("@")[1].split(" ")[0];
                             String umessage = message.split("@")[1].split(" ")[1];
-                            sendMessage(target,umessage);
-                        }else{
+                            sendMessage(target, umessage);
+                        } else {
                             chatLog(username + " : " + message);
                         }
-
                     }
+
                     done = line.equals(".stop");
                 } catch (IOException ioe) {
-                    done = true;
+                    System.out.println("errr");
+
                 }
             }
+            System.out.println("exit exit");
         } catch (IOException ioe) {
             System.out.println(ioe);
         }
-        if (serverSocket != null) {
-            try {
-                serverSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (streamIn != null) {
-            try {
-                streamIn.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (serverSocket != null) {
+//            try {
+//                serverSocket.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if (streamIn != null) {
+//            try {
+//                streamIn.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     public void chatLog(String message) throws IOException {

@@ -18,7 +18,7 @@ public class ChatClient {
             personalChatRoom = new PersonalChatRoom(new DataInputStream(new BufferedInputStream(socket.getInputStream())));
             personelChatRoomThread = new Thread(personalChatRoom);
             personelChatRoomThread.start();
-            start();
+            this.start();
             streamOut.writeUTF(this.userName);
             streamOut.flush();
         }
@@ -35,6 +35,7 @@ public class ChatClient {
         while (!line.equals(".LOGOUT"))
         {  try
         {  line = console.readLine();
+        System.out.println(line+"this is user message");
             streamOut.writeUTF(line);
             streamOut.flush();
         }
@@ -65,9 +66,9 @@ public class ChatClient {
 
         Thread t1 = new Thread(c1);
         t1.start();
-        Thread.sleep(3000);
-        Thread t2 = new Thread(c2);
-        t2.start();
+//        Thread.sleep(3000);
+//        Thread t2 = new Thread(c2);
+//        t2.start();
     }
 }
 

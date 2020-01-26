@@ -24,6 +24,7 @@ public class ChatServer extends ChatCommunication{
             System.out.println("ChatRoom started: at port 3001 ");
             while (!chatRoomConnection()){
                 //it is wait to connect to chatRoom
+                System.out.println("***Waiting for chat room");
                 Thread.sleep(1000);
             }
             boolean done = false;
@@ -43,6 +44,7 @@ public class ChatServer extends ChatCommunication{
                     System.out.println("Client accepted: " + socket);
                     messageGetter = new MessageGetter(socket,username);
                     messageGetterThread = new Thread(messageGetter);
+                    messageGetterThread.start();
                     System.out.println("total user: " + user_list.size());
                 }else{
                     System.out.println("Invalid user request ");

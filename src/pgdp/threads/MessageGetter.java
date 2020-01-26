@@ -3,15 +3,14 @@ package pgdp.threads;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 public class MessageGetter extends ChatCommunication implements Runnable {
     private DataInputStream streamIn = null;
-    private Socket socket = null;
+    private Socket ssocket = null;
     private String userName = null;
     public MessageGetter(Socket socket,String username) throws IOException {
-        this.socket = socket;
+        this.ssocket = socket;
         this.userName = username;
         this.streamIn =new DataInputStream(new BufferedInputStream(socket.getInputStream()));
     }
@@ -20,7 +19,10 @@ public class MessageGetter extends ChatCommunication implements Runnable {
         boolean done = false;
         while (true){
             try {
-                if (chatRoomConnection()) break;
+                if (chatRoomConnection()){
+                    System.out.println("Message getter #"+userName+"#chatroom connection successful");
+                    break;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -31,12 +33,14 @@ public class MessageGetter extends ChatCommunication implements Runnable {
             }
         }
         while (!done){
+//            System.out.println("Waiting user message");
             try {
                 String line = streamIn.readUTF();
                 sendMessageChatServer(userName+"#username#"+line);
                 done = line.equals("LOGOUT");
             } catch (IOException e) {
                 e.printStackTrace();
+                done=true;
             }
         }
         try {
